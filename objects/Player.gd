@@ -1,6 +1,5 @@
 extends Area2D
 
-const movementLength : int = 32
 var velocity : Vector2 = Vector2()
 var isDead : bool = false
 
@@ -33,13 +32,18 @@ func _physics_process(_delta):
 		dir = Vector2.DOWN
 	if self.reflect:
 		dir.x *= -1
-	var destPosition = self.position +  dir * movementLength
+	var destPosition = self.position +  dir * Global.movementLength
 	if (destPosition in Global.coordToObject):
 		var whatIsAhead = Global.coordToObject[destPosition]
-		print(whatIsAhead.name)
+		if whatIsAhead.name.count('Player') > 0:
+			pass
 		if whatIsAhead.name.count('Wall') > 0:
 			pass
-		if whatIsAhead.name.count('Hole') > 0:
+		elif whatIsAhead.name.count('Hole') > 0:
 			_killPlayer()
+		elif whatIsAhead.name.count('GuitarString') > 0:
+			var nextPosition : Vector2 = destPosition + whatIsAhead.getJump()
+			print(nextPosition)
+			_updatePlayerPosition(nextPosition)
 	else:
 		_updatePlayerPosition(destPosition)
