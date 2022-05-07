@@ -1,7 +1,8 @@
 extends Node
 
 const sizeGrid = 32
-const offSet = Vector2(sizeGrid, sizeGrid)
+onready var offSet = Vector2(sizeGrid, sizeGrid + $GUI.get_size().y)
+onready var curLevel = 0
 	
 func loadFile(fileName : String):
 	var file = File.new()
@@ -44,5 +45,10 @@ func buildMap(map):
 
 func _init():
 	print('Running')
+
+func _ready():
 	var mapFile = loadFile("res://maps/map0.txt")
 	buildMap(mapFile)
+	$GUI.hide_level_completed_label()
+	$GUI.set_level_name("Level " + str(curLevel + 1))
+	$GUI.show()
