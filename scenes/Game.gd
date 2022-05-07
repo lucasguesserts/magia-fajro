@@ -1,11 +1,11 @@
-extends Node
+extends Node2D
 
 class_name Game
 
 signal change_scene(sceneType)
 
 const sizeGrid = 32
-onready var offSet = Vector2(sizeGrid, sizeGrid + $GUI.get_size().y)
+var offset : Vector2
 onready var curLevel = 0
 var needRestart = false
 onready var drums : AudioStreamPlayer = $Drums2
@@ -44,7 +44,7 @@ func loadJsonFile(fileName : String):
 	
 func parseObject(coord : Vector2, object : String):
 	coord *= sizeGrid
-	coord += offSet
+	coord += offset
 	if object == '#':
 		var scene = load("res://objects/Wall.tscn");
 		var instance = scene.instance();
@@ -111,7 +111,7 @@ func createGuitarString(x, y, intensity, rotation):
 	self.add_child(instance);
 	var coord : Vector2 = Vector2(x, y)
 	coord *= sizeGrid
-	coord += offSet
+	coord += offset
 	instance.position = coord
 	Global.coordToObject[coord] = instance
 	instance.intensity = intensity
@@ -124,7 +124,7 @@ func createTuner(guitarString, x, y):
 	self.add_child(instance);
 	var coord : Vector2 = Vector2(x, y)
 	coord *= sizeGrid
-	coord += offSet
+	coord += offset
 	instance.position = coord
 	Global.coordToObject[coord] = instance
 	instance.guitarString = guitarString
@@ -175,10 +175,19 @@ func buildMusicType(jsonFile):
 
 func _ready():
 	var mapFile = loadFile("res://maps/map2.txt")
+	var lines = mapFile.split("\n",false)
+	var rows = lines.size()
+	var cols = lines[0].length()
+	var rect = get_viewport_rect()
+	offset = Vector2.ZERO
+	offset.x = (rect.size.x - 32*cols) / 2.0
+	offset.y = (rect.size.y - 32*rows + $GUI.get_size().y) / 2.0
+	
 	buildMap(mapFile)
 	var jsonFile = loadJsonFile("res://maps/map2_extras.json")
 	buildGuitarString(jsonFile)
 	buildMusicType(jsonFile)
+	
 	$GUI.hide_level_completed_label()
 	$GUI.hide_level_failed_label()
 	$GUI.set_level_name("Level " + str(curLevel + 1))
