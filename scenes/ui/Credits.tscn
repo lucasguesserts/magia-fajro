@@ -16,24 +16,22 @@ margin_right = 1024.0
 margin_bottom = 600.0
 custom_fonts/normal_font = SubResource( 1 )
 bbcode_enabled = true
-bbcode_text = "[center]Game created by Yehuda Garti
-yeudag@gmail.com
+bbcode_text = "[center]Credits: 
 
-[url=https://github.com/yegarti/godot-sokoban][img]assets/GitHub-Mark-64px.png[/img]
-yegarti/godot-sokoban[/url]
+[Hole icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/hole)
+[GUI] github.com/yegarti/godot-sokoban (MIT license)
 
-Game assets by [url=https://kenney.nl]Kenney[/url]
-
+Created by
+Lucas Guesser, Lucas Uriarte, Renan Franco e Victor Lago
 [/center]
 "
-text = "Game created by Yehuda Garti
-yeudag@gmail.com
+text = "Credits: 
 
+[Hole icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/hole)
+[GUI] github.com/yegarti/godot-sokoban (MIT license)
 
-yegarti/godot-sokoban
-
-Game assets by Kenney
-
+Created by
+Lucas Guesser, Lucas Uriarte, Renan Franco e Victor Lago
 
 "
 scroll_active = false
