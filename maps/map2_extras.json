@@ -5,7 +5,7 @@
       "y": 3
     },
     "intensity": 2,
-    "direction": "LEFT"
+    "rotation": "LEFT"
   },
   "Tuner": {
     "position": {

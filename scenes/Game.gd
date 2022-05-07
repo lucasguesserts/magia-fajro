@@ -14,7 +14,6 @@ func loadFile(fileName : String):
 	print(content)
 	file.close()
 	return content
-	
 
 func action(object):
 	if object.name.count("Drums"):
@@ -27,6 +26,14 @@ func action(object):
 		Global.coordToObject[coord] = instance
 		return true
 
+func loadJsonFile(fileName : String):
+	var file = File.new()
+	file.open(fileName, File.READ)
+	var content = file.get_as_text()
+	var content_as_dictionary = parse_json(content)
+	file.close()
+	return content_as_dictionary
+	
 func parseObject(coord : Vector2, object : String):
 	coord *= sizeGrid
 	coord += offSet
@@ -96,24 +103,24 @@ func _unhandled_input(event):
 		resetGame()
 		emit_signal("change_scene", Global.SceneType.Main)
 
-func createGuitarString():
+func createGuitarString(x, y, intensity, rotation):
 	var scene = load("res://objects/GuitarString.tscn");
 	var instance = scene.instance();
 	self.add_child(instance);
-	var coord : Vector2 = Vector2(8, 3)
+	var coord : Vector2 = Vector2(x, y)
 	coord *= sizeGrid
 	coord += offSet
 	instance.position = coord
 	Global.coordToObject[coord] = instance
-	instance.intensity = 2
-	instance.currentRotation = 'LEFT'
+	instance.intensity = intensity
+	instance.currentRotation = rotation
 	return instance
 
-func createTuner(guitarString):
+func createTuner(guitarString, x, y):
 	var scene = load("res://objects/Tuner.tscn");
 	var instance = scene.instance();
 	self.add_child(instance);
-	var coord : Vector2 = Vector2(3, 1)
+	var coord : Vector2 = Vector2(x, y)
 	coord *= sizeGrid
 	coord += offSet
 	instance.position = coord
@@ -130,9 +137,21 @@ func buildMap(map):
 			continue
 		parseObject(Vector2(i, j), map[h])
 		i += 1
-	var guitarString = createGuitarString()
-	createTuner(guitarString)
 	Global.running = true
+
+func buildGuitarString(json):
+	var guitarString = createGuitarString(
+		json['GuitarString']['position']['x'],
+		json['GuitarString']['position']['y'],
+		json['GuitarString']['intensity'],
+		json['GuitarString']['rotation']
+	)
+	createTuner(
+		guitarString,
+		json['Tuner']['position']['x'],
+		json['Tuner']['position']['y']
+	)
+	
 
 func _init():
 	print('Running')
@@ -140,6 +159,8 @@ func _init():
 func _ready():
 	var mapFile = loadFile("res://maps/map2.txt")
 	buildMap(mapFile)
+	var guitarStringJsonFile = loadJsonFile("res://maps/map2_extras.json")
+	buildGuitarString(guitarStringJsonFile)
 	$GUI.hide_level_completed_label()
 	$GUI.hide_level_failed_label()
 	$GUI.set_level_name("Level " + str(curLevel + 1))
