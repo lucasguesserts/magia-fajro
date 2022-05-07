@@ -138,7 +138,7 @@ func _init():
 	print('Running')
 
 func _ready():
-	var mapFile = loadFile("res://maps/map_test_tuner.txt")
+	var mapFile = loadFile("res://maps/map2.txt")
 	buildMap(mapFile)
 	$GUI.hide_level_completed_label()
 	$GUI.hide_level_failed_label()
