@@ -86,3 +86,11 @@ func _ready():
 	$GUI.hide_level_failed_label()
 	$GUI.set_level_name("Level " + str(curLevel + 1))
 	$GUI.show()
+	$Tween.interpolate_property($AudioStreamPlayer, "volume_db",
+		$AudioStreamPlayer.volume_db, 0, 2.0, Tween.TRANS_LINEAR)
+	$Tween.start()
+	
+	
+	
+	
+	
