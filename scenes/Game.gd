@@ -15,6 +15,18 @@ func loadFile(fileName : String):
 	file.close()
 	return content
 	
+
+func action(object):
+	if object.name.count("Drums"):
+		var scene = load("res://objects/Hole.tscn");
+		var instance = scene.instance();
+		self.add_child(instance);
+		var coord = object.position
+		instance.position = coord
+		Global.coordToObject.erase(object)
+		Global.coordToObject[coord] = instance
+		return true
+
 func parseObject(coord : Vector2, object : String):
 	coord *= sizeGrid
 	coord += offSet
@@ -30,6 +42,12 @@ func parseObject(coord : Vector2, object : String):
 		self.add_child(instance);
 		instance.position = coord
 		Global.coordToObject[coord] = instance
+	elif object == 'D':
+		var scene = load("res://objects/Drums.tscn");
+		var instance = scene.instance();
+		self.add_child(instance);
+		instance.position = coord
+		Global.coordToObject[coord] = instance
 	elif object == '+':
 		var scene = load("res://objects/Bell.tscn");
 		var instance = scene.instance();
@@ -41,8 +59,10 @@ func parseObject(coord : Vector2, object : String):
 		var instance = scene.instance();
 		instance.connect("change_scene", self, "change_scene")
 		instance.GUI = $GUI
+		instance.Game = self
 		self.add_child(instance);
 		instance.position = coord
+		instance.Drums = $Drums
 		if object == '1':
 			instance.reflect = true
 		Global.coordToObject[coord] = instance
@@ -86,3 +106,8 @@ func _ready():
 	$GUI.hide_level_failed_label()
 	$GUI.set_level_name("Level " + str(curLevel + 1))
 	$GUI.show()
+	$Tween.interpolate_property($Background, "volume_db",
+		$Background.volume_db, 0, 0.1, Tween.TRANS_EXPO)
+	$Tween.start()
+	
+	
