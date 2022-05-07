@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node",
+"class": "Game",
+"language": "GDScript",
+"path": "res://scenes/Game.gd"
+} ]
+_global_script_class_icons={
+"Game": ""
+}
+
 [application]
 
 config/name="magia-fajro"

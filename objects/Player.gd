@@ -55,11 +55,6 @@ func _finish():
 			GUI.show_level_completed_label(false)
 			Global.running = false
 
-func _playDrums():
-	$Tween.interpolate_property(Drums, "volume_db",
-	Drums.volume_db, 0, 0.1, Tween.TRANS_EXPO)
-	$Tween.start()
-
 func _physics_process(_delta):
 	if not Global.running:
 		return false
@@ -90,13 +85,14 @@ func _physics_process(_delta):
 		elif whatIsAhead.name.count('Bell') > 0:
 			_finish()
 		elif whatIsAhead.name.count('Drums') > 0:
-			_playDrums()
+			whatIsAhead.play(Game)
 			var destObject = Global.coordToObject[destPosition]
 			_updatePlayerPosition(destPosition)
 			self.walkingOver = destObject
 		elif whatIsAhead.name.count('Tuner') > 0:
-			whatIsAhead.play()
+			whatIsAhead.play(Game)
 		elif whatIsAhead.name.count('GuitarString') > 0:
+			whatIsAhead.play(Game)
 			var jumpPosition : Vector2 = destPosition + whatIsAhead.getJump()
 			if (jumpPosition in Global.coordToObject):
 				var whatIsAtJumpPosition = Global.coordToObject[jumpPosition]

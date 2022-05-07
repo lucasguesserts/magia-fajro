@@ -1,11 +1,17 @@
 extends Node
 
+class_name Game
+
 signal change_scene(sceneType)
 
 const sizeGrid = 32
 onready var offSet = Vector2(sizeGrid, sizeGrid + $GUI.get_size().y)
 onready var curLevel = 0
 var needRestart = false
+onready var drums : AudioStreamPlayer = $Drums
+onready var piano : AudioStreamPlayer = $Piano
+onready var bass : AudioStreamPlayer = $Bass
+onready var tween : Tween = $Tween 
 	
 func loadFile(fileName : String):
 	var file = File.new()
@@ -145,7 +151,7 @@ func _init():
 	print('Running')
 
 func _ready():
-	var mapFile = loadFile("res://maps/map1.txt")
+	var mapFile = loadFile("res://maps/map0.txt")
 	buildMap(mapFile)
 	var guitarStringJsonFile = loadJsonFile("res://maps/map1_extras.json")
 	buildGuitarString(guitarStringJsonFile)
