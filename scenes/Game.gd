@@ -151,10 +151,10 @@ func _init():
 	print('Running')
 
 func _ready():
-	var mapFile = loadFile("res://maps/map0.txt")
+	var mapFile = loadFile("res://maps/map2.txt")
 	buildMap(mapFile)
-	var guitarStringJsonFile = loadJsonFile("res://maps/map1_extras.json")
-	buildGuitarString(guitarStringJsonFile)
+	var jsonFile = loadJsonFile("res://maps/map2_extras.json")
+	buildGuitarString(jsonFile)
 	$GUI.hide_level_completed_label()
 	$GUI.hide_level_failed_label()
 	$GUI.set_level_name("Level " + str(curLevel + 1))
