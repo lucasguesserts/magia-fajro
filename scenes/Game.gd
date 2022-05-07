@@ -191,6 +191,7 @@ func _ready():
 	$GUI.hide_level_completed_label()
 	$GUI.hide_level_failed_label()
 	$GUI.set_level_name("Level " + str(curLevel + 1))
+	$GUI.hide_high_score()
 	$GUI.show()
 	
 	$Tween.interpolate_property(background, "volume_db",
