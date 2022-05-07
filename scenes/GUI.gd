@@ -10,6 +10,7 @@ onready var level_name_checkmark = $Control/MarginContainer/Elements/HBoxContain
 onready var moves_label = $Control/MarginContainer/Elements/HBoxContainer/HBoxMiddle/MovesContainer/MovesLabel
 onready var pushes_label = $Control/MarginContainer/Elements/HBoxContainer/HBoxMiddle/PushesContainer/PushesLabel
 onready var level_pack_name_label = $Control/MarginContainer/Elements/HBoxContainer/HBoxMiddle/VBoxLevelInfo/LevelPackLabel
+onready var level_failed_message = $Control/LevelFailedMessage
 onready var level_completed_message = $Control/LevelCompletedMessage
 onready var help_menu = $Control/Instructions
 onready var high_score_label = $Control/MarginContainer/Elements/HBoxContainer/HBoxRight/ScoreLabel
@@ -29,7 +30,6 @@ func show():
 
 func hide():
 	$Control.visible = false
-
 
 func set_level_name(name):
 	level_name_label.text = name
@@ -60,7 +60,13 @@ func show_level_completed_mark():
 
 func hide_level_completed_mark():
 	self.level_name_checkmark.visible = false
-	
+
+func show_level_failed_label(slow = false):
+	self.level_failed_message.show_msg(Global.LVL_DONE_MESSAGE_VISIBLE_TIME if slow else 0)
+
+func hide_level_failed_label(slow = false):
+	self.level_failed_message.hide_msg(Global.LVL_DONE_MESSAGE_VISIBLE_TIME if slow else 0)
+
 func show_level_completed_label(slow = false):
 	self.level_completed_message.show_msg(Global.LVL_DONE_MESSAGE_VISIBLE_TIME if slow else 0)
 
