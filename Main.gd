@@ -14,13 +14,17 @@ func loadFile(fileName : String):
 func parseObject(coord : Vector2, object : String):
 	coord *= sizeGrid
 	coord += offSet
-	
 	if object == '#':
 		var scene = load("res://objects/Wall.tscn");
 		var instance = scene.instance();
 		self.add_child(instance);
 		instance.position = coord
-		
+		Global.coordToObject[coord] = instance
+	elif object == 'X':
+		var scene = load("res://objects/Hole.tscn");
+		var instance = scene.instance();
+		self.add_child(instance);
+		instance.position = coord
 		Global.coordToObject[coord] = instance
 	elif object == '1' || object == '2':
 		var scene = load("res://objects/Player.tscn");
