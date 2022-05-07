@@ -31,14 +31,21 @@ func _killPlayer():
 	GUI.show_level_failed_label(false)
 	Global.running = false
 
+func disableBell():
+	$Tween.interpolate_property($AudioStreamPlayer, "volume_db",
+	$AudioStreamPlayer.volume_db, -80, 0.1, Tween.TRANS_EXPO)
+	$Tween.start()
+
 func _finish():
 	if not finished:
 		self.finished = true
 		Global.finished += 1
 		self.visible = false
+		$WinSound.play()
 		if Global.finished == 2:
 			GUI.show_level_completed_label(false)
 			Global.running = false
+
 
 func _physics_process(_delta):
 	if not Global.running:
