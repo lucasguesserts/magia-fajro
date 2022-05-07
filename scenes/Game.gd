@@ -4,7 +4,7 @@ class_name Game
 
 signal change_scene(sceneType)
 
-const sizeGrid = 32
+const sizeGrid = Global.movementLength
 var offset : Vector2
 onready var curLevel = 0
 var needRestart = false
@@ -180,8 +180,8 @@ func _ready():
 	var cols = lines[0].length()
 	var rect = get_viewport_rect()
 	offset = Vector2.ZERO
-	offset.x = (rect.size.x - 32*cols) / 2.0
-	offset.y = (rect.size.y - 32*rows + $GUI.get_size().y) / 2.0
+	offset.x = (rect.size.x - Global.movementLength *cols) / 2.0
+	offset.y = (rect.size.y - Global.movementLength *rows + $GUI.get_size().y) / 2.0
 	
 	buildMap(mapFile)
 	var jsonFile = loadJsonFile("res://maps/map2_extras.json")
