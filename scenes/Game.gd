@@ -55,20 +55,8 @@ func parseObject(coord : Vector2, object : String):
 		self.add_child(instance);
 		instance.position = coord
 		Global.coordToObject[coord] = instance
-	elif object == 'S':
-		var scene = load("res://objects/GuitarString.tscn");
-		var instance = scene.instance();
-		self.add_child(instance);
-		instance.position = coord
-		Global.coordToObject[coord] = instance
 	elif object == '+':
 		var scene = load("res://objects/Bell.tscn");
-		var instance = scene.instance();
-		self.add_child(instance);
-		instance.position = coord
-		Global.coordToObject[coord] = instance
-	elif object == 'T':
-		var scene = load("res://objects/Tuner.tscn");
 		var instance = scene.instance();
 		self.add_child(instance);
 		instance.position = coord
@@ -157,9 +145,9 @@ func _init():
 	print('Running')
 
 func _ready():
-	var mapFile = loadFile("res://maps/map2.txt")
+	var mapFile = loadFile("res://maps/map1.txt")
 	buildMap(mapFile)
-	var guitarStringJsonFile = loadJsonFile("res://maps/map2_extras.json")
+	var guitarStringJsonFile = loadJsonFile("res://maps/map1_extras.json")
 	buildGuitarString(guitarStringJsonFile)
 	$GUI.hide_level_completed_label()
 	$GUI.hide_level_failed_label()
