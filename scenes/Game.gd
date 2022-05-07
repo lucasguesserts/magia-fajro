@@ -60,6 +60,12 @@ func parseObject(coord : Vector2, object : String):
 		self.add_child(instance);
 		instance.position = coord
 		Global.coordToObject[coord] = instance
+	elif object == 'T':
+		var scene = load("res://objects/Tuner.tscn");
+		var instance = scene.instance();
+		self.add_child(instance);
+		instance.position = coord
+		Global.coordToObject[coord] = instance
 	elif object == '1' || object == '2':
 		var scene = load("res://objects/Player.tscn");
 		var instance = scene.instance();
@@ -106,7 +112,7 @@ func _init():
 	print('Running')
 
 func _ready():
-	var mapFile = loadFile("res://maps/map1.txt")
+	var mapFile = loadFile("res://maps/map_test_tuner.txt")
 	buildMap(mapFile)
 	$GUI.hide_level_completed_label()
 	$GUI.hide_level_failed_label()
