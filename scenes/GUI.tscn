@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/GUI.gd" type="Script" id=1]
 [ext_resource path="res://assets/label_HP_bg.png" type="Texture" id=2]
@@ -6,14 +6,11 @@
 [ext_resource path="res://assets/fonts/fonts/montreal/Montreal-Regular.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://assets/fonts/fonts/montreal/Montreal-Bold.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://scenes/ui/LevelCompletedMessage.gd" type="Script" id=6]
-[ext_resource path="res://assets/green_checkmark.png" type="Texture" id=7]
+[ext_resource path="res://scenes/HelpButton.gd" type="Script" id=7]
 [ext_resource path="res://scenes/ui/Help.tscn" type="PackedScene" id=8]
 [ext_resource path="res://styles/style_button_hover.tres" type="StyleBox" id=9]
 [ext_resource path="res://styles/style_button_normal.tres" type="StyleBox" id=10]
 [ext_resource path="res://styles/style_button_pressed.tres" type="StyleBox" id=11]
-
-[sub_resource type="DynamicFont" id=1]
-font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 15
@@ -21,9 +18,6 @@ font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 28
-font_data = ExtResource( 4 )
-
-[sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=5]
@@ -80,7 +74,7 @@ margin_right = 974.0
 margin_bottom = 69.0
 
 [node name="HBoxLeft" type="HBoxContainer" parent="Control/MarginContainer/Elements/HBoxContainer"]
-margin_right = 318.0
+margin_right = 480.0
 margin_bottom = 59.0
 size_flags_horizontal = 3
 
@@ -95,6 +89,7 @@ custom_styles/hover = ExtResource( 9 )
 custom_styles/pressed = ExtResource( 11 )
 custom_styles/normal = ExtResource( 10 )
 text = "f"
+script = ExtResource( 7 )
 
 [node name="ResetButton" type="Button" parent="Control/MarginContainer/Elements/HBoxContainer/HBoxLeft"]
 margin_left = 64.0
@@ -149,35 +144,20 @@ custom_styles/normal = ExtResource( 10 )
 text = "e"
 
 [node name="HBoxMiddle" type="HBoxContainer" parent="Control/MarginContainer/Elements/HBoxContainer"]
-margin_left = 322.0
-margin_right = 641.0
+margin_left = 484.0
+margin_right = 964.0
 margin_bottom = 59.0
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="PushesContainer" type="MarginContainer" parent="Control/MarginContainer/Elements/HBoxContainer/HBoxMiddle"]
-margin_right = 65.0
-margin_bottom = 59.0
-size_flags_horizontal = 3
-
-[node name="PushesLabel" type="Label" parent="Control/MarginContainer/Elements/HBoxContainer/HBoxMiddle/PushesContainer"]
-margin_top = 7.0
-margin_right = 65.0
-margin_bottom = 52.0
-custom_fonts/font = SubResource( 1 )
-text = "Pushes
-0"
-align = 1
-
 [node name="VBoxLevelInfo" type="VBoxContainer" parent="Control/MarginContainer/Elements/HBoxContainer/HBoxMiddle"]
-margin_left = 69.0
-margin_right = 249.0
+margin_right = 480.0
 margin_bottom = 59.0
 rect_min_size = Vector2( 180, 0 )
 size_flags_horizontal = 3
 
 [node name="LevelPackLabel" type="Label" parent="Control/MarginContainer/Elements/HBoxContainer/HBoxMiddle/VBoxLevelInfo"]
-margin_right = 180.0
+margin_right = 480.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 2 )
@@ -187,7 +167,7 @@ valign = 1
 
 [node name="LevelNameContainer" type="MarginContainer" parent="Control/MarginContainer/Elements/HBoxContainer/HBoxMiddle/VBoxLevelInfo"]
 margin_top = 23.0
-margin_right = 180.0
+margin_right = 480.0
 margin_bottom = 59.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -196,63 +176,11 @@ __meta__ = {
 }
 
 [node name="LevelLabel" type="Label" parent="Control/MarginContainer/Elements/HBoxContainer/HBoxMiddle/VBoxLevelInfo/LevelNameContainer"]
-margin_right = 180.0
+margin_right = 480.0
 margin_bottom = 36.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 3 )
 text = "Level 100"
-align = 1
-valign = 1
-
-[node name="LevelCheckmark" type="TextureRect" parent="Control/MarginContainer/Elements/HBoxContainer/HBoxMiddle/VBoxLevelInfo/LevelNameContainer"]
-margin_left = 159.0
-margin_top = 8.0
-margin_right = 180.0
-margin_bottom = 28.0
-size_flags_horizontal = 8
-size_flags_vertical = 4
-texture = ExtResource( 7 )
-
-[node name="MovesContainer" type="MarginContainer" parent="Control/MarginContainer/Elements/HBoxContainer/HBoxMiddle"]
-margin_left = 253.0
-margin_right = 319.0
-margin_bottom = 59.0
-size_flags_horizontal = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MovesLabel" type="Label" parent="Control/MarginContainer/Elements/HBoxContainer/HBoxMiddle/MovesContainer"]
-margin_top = 7.0
-margin_right = 66.0
-margin_bottom = 52.0
-custom_fonts/font = SubResource( 4 )
-text = "Moves
-0"
-align = 1
-
-[node name="HBoxRight" type="VBoxContainer" parent="Control/MarginContainer/Elements/HBoxContainer"]
-margin_left = 645.0
-margin_right = 964.0
-margin_bottom = 59.0
-size_flags_horizontal = 3
-
-[node name="HighScoreLabel" type="Label" parent="Control/MarginContainer/Elements/HBoxContainer/HBoxRight"]
-margin_right = 319.0
-margin_bottom = 36.0
-size_flags_horizontal = 3
-custom_fonts/font = SubResource( 3 )
-text = "High Score"
-align = 1
-valign = 1
-
-[node name="ScoreLabel" type="Label" parent="Control/MarginContainer/Elements/HBoxContainer/HBoxRight"]
-margin_top = 40.0
-margin_right = 319.0
-margin_bottom = 59.0
-size_flags_horizontal = 3
-custom_fonts/font = SubResource( 2 )
-text = "999 moves"
 align = 1
 valign = 1
 

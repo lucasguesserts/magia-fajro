@@ -16,8 +16,8 @@ func _ready():
 func _on_Exit_pressed():
 	emit_signal("change_scene", Global.SceneType.Quit)
 
-#func _on_Help_pressed():
-#	emit_signal("change_scene", Globals.SceneType.Help)
+func _on_Help_pressed():
+	emit_signal("change_scene", Global.SceneType.Help)
 
 func _on_Play_pressed():
-	emit_signal("change_scene", Global.SceneType.Game)
+	emit_signal("change_scene", Global.SceneType.SelectLevel)
