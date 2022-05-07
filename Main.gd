@@ -2,7 +2,6 @@ extends Node
 
 const sizeGrid = 32
 const offSet = Vector2(sizeGrid, sizeGrid)
-var coordToObject = {}
 	
 func loadFile(fileName : String):
 	var file = File.new()
@@ -21,7 +20,8 @@ func parseObject(coord : Vector2, object : String):
 		var instance = scene.instance();
 		self.add_child(instance);
 		instance.position = coord
-		coordToObject[coord] = instance
+		
+		Global.coordToObject[coord] = instance
 	elif object == '1' || object == '2':
 		var scene = load("res://objects/Player.tscn");
 		var instance = scene.instance();
@@ -29,7 +29,7 @@ func parseObject(coord : Vector2, object : String):
 		instance.position = coord
 		if object == '1':
 			instance.reflect = true
-		coordToObject[coord] = instance
+		Global.coordToObject[coord] = instance
 
 func buildMap(map):
 	var i = 0
