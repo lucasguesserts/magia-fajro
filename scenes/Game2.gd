@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name Game
+class_name Game2
 
 signal change_scene(sceneType)
 
@@ -174,7 +174,7 @@ func buildMusicType(jsonFile):
 		assert(false)
 
 func _ready():
-	var baseMapName = "map1"
+	var baseMapName = "map2"
 	var mapFile = loadFile("res://maps/" + baseMapName + ".txt")
 	var lines = mapFile.split("\n",false)
 	var rows = lines.size()

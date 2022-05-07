@@ -13,7 +13,7 @@ var intensity : int = 3
 func _ready():
 	self.rotation = ROTATION[currentRotation]
 
-func play(game : Game):
+func play(game):
 	game.tween.interpolate_property(game.bass, "volume_db",
 		game.bass.volume_db, 0, 0.1, Tween.TRANS_EXPO)
 	game.tween.start()

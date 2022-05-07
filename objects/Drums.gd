@@ -4,7 +4,7 @@ func action(Game):
 	Game.action(self)
 	return true
 	
-func play(game : Game):
+func play(game):
 	game.tween.interpolate_property(game.drums, "volume_db",
 		game.drums.volume_db, 0, 0.1, Tween.TRANS_EXPO)
 	game.tween.start()

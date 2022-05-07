@@ -9,10 +9,14 @@ var back_queue = []
 
 var scenes = {
 	Global.SceneType.Main: preload("res://scenes/ui/MainMenu.tscn"),
+	Global.SceneType.Help: preload("res://scenes/ui/Help.tscn"),
+	Global.SceneType.SelectLevel: preload("res://scenes/StageSelection.tscn"),
 	Global.SceneType.Game: preload("res://scenes/Game.tscn"),
+	Global.SceneType.Game2: preload("res://scenes/Game2.tscn"),
 }
 
 func _ready():
+	Global.world = self
 	$ButtonContainer/BackButton.connect("pressed", self, "back")
 	_load_scene(current_scene_type)
 	
@@ -22,7 +26,7 @@ func _load_scene(scene_type):
 	for child in scene_container.get_children():
 		child.queue_free()
 	scene_container.add_child(scene)
-	if scene_type in [Global.SceneType.Main, Global.SceneType.Game]:
+	if scene_type in [Global.SceneType.Main, Global.SceneType.Game, Global.SceneType.Game2]:
 		$ButtonContainer.visible = false
 	else:
 		$ButtonContainer.visible = true
