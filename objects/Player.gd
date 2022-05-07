@@ -100,20 +100,10 @@ func _physics_process(_delta):
 			var jumpPosition : Vector2 = destPosition + whatIsAhead.getJump()
 			if (jumpPosition in Global.coordToObject):
 				var whatIsAtJumpPosition = Global.coordToObject[jumpPosition]
-				if whatIsAtJumpPosition.name.count('Player') > 0:
-					_killPlayer()
-				if whatIsAtJumpPosition.name.count('Wall') > 0:
-					_killPlayer()
-				elif whatIsAtJumpPosition.name.count('Hole') > 0:
-					_killPlayer()
-				elif whatIsAtJumpPosition.name.count('Tuner') > 0:
-					_killPlayer()
-				elif whatIsAtJumpPosition.name.count('GuitarString') > 0:
-					_killPlayer()
-				elif whatIsAtJumpPosition.name.count('Bell') > 0:
+				if whatIsAtJumpPosition.name.count('Bell') > 0:
 					_finish()
 				else:
-					raise()
+					_killPlayer()
 			else:
 				_updatePlayerPosition(jumpPosition)
 	else:
