@@ -22,11 +22,13 @@ func parseObject(coord : Vector2, object : String):
 		self.add_child(instance);
 		instance.position = coord
 		coordToObject[coord] = instance
-	elif object == 'P':
+	elif object == '1' || object == '2':
 		var scene = load("res://objects/Player.tscn");
 		var instance = scene.instance();
 		self.add_child(instance);
 		instance.position = coord
+		if object == '1':
+			instance.reflect = true
 		coordToObject[coord] = instance
 
 func buildMap(map):
