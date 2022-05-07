@@ -4,7 +4,7 @@ signal change_scene(scene_type)
 
 const movementLength : int = 32
 var velocity : Vector2 = Vector2()
-var isDead : bool = false
+var isAlive : bool = true
 var GUI = null
 var finished: bool = false
 var Drums = null
@@ -35,7 +35,7 @@ func _input(event):
 	
 func _killPlayer():
 	Global.coordToObject.erase(self.position)
-	self.isDead = true
+	self.isAlive = false
 	self.visible = false
 	GUI.show_level_failed_label(false)
 	Global.running = false
@@ -63,6 +63,8 @@ func _playDrums():
 func _physics_process(_delta):
 	if not Global.running:
 		return false
+	if self.finished:
+		return
 	if not self.position in Global.coordToObject:
 		return
 	var dir = Vector2(0, 0)
@@ -76,20 +78,34 @@ func _physics_process(_delta):
 		dir = Vector2.DOWN
 	if self.reflect:
 		dir.x *= -1
-	var destPosition = self.position +  dir * movementLength
+	var destPosition = self.position +  dir * Global.movementLength
 	if (destPosition in Global.coordToObject):
 		var whatIsAhead = Global.coordToObject[destPosition]
-		print(whatIsAhead.name)
-		if whatIsAhead.name.count('Wall') > 0:
+		if whatIsAhead.name.count('Player') > 0:
 			pass
-		if whatIsAhead.name.count('Hole') > 0:
+		elif whatIsAhead.name.count('Wall') > 0:
+			pass
+		elif whatIsAhead.name.count('Hole') > 0:
 			_killPlayer()
-		if whatIsAhead.name.count('Bell') > 0:
+		elif whatIsAhead.name.count('Bell') > 0:
 			_finish()
-		if whatIsAhead.name.count('Drums') > 0:
+		elif whatIsAhead.name.count('Drums') > 0:
 			_playDrums()
 			var destObject = Global.coordToObject[destPosition]
 			_updatePlayerPosition(destPosition)
 			self.walkingOver = destObject
+		elif whatIsAhead.name.count('Tuner') > 0:
+			whatIsAhead.play()
+		elif whatIsAhead.name.count('GuitarString') > 0:
+			var jumpPosition : Vector2 = destPosition + whatIsAhead.getJump()
+			if (jumpPosition in Global.coordToObject):
+				var whatIsAtJumpPosition = Global.coordToObject[jumpPosition]
+				if whatIsAtJumpPosition.name.count('Bell') > 0:
+					_finish()
+				else:
+					_killPlayer()
+			else:
+				_updatePlayerPosition(jumpPosition)
 	else:
 		_updatePlayerPosition(destPosition)
+	

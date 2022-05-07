@@ -14,7 +14,6 @@ func loadFile(fileName : String):
 	print(content)
 	file.close()
 	return content
-	
 
 func action(object):
 	if object.name.count("Drums"):
@@ -27,6 +26,14 @@ func action(object):
 		Global.coordToObject[coord] = instance
 		return true
 
+func loadJsonFile(fileName : String):
+	var file = File.new()
+	file.open(fileName, File.READ)
+	var content = file.get_as_text()
+	var content_as_dictionary = parse_json(content)
+	file.close()
+	return content_as_dictionary
+	
 func parseObject(coord : Vector2, object : String):
 	coord *= sizeGrid
 	coord += offSet
@@ -84,6 +91,30 @@ func _unhandled_input(event):
 		resetGame()
 		emit_signal("change_scene", Global.SceneType.Main)
 
+func createGuitarString(x, y, intensity, rotation):
+	var scene = load("res://objects/GuitarString.tscn");
+	var instance = scene.instance();
+	self.add_child(instance);
+	var coord : Vector2 = Vector2(x, y)
+	coord *= sizeGrid
+	coord += offSet
+	instance.position = coord
+	Global.coordToObject[coord] = instance
+	instance.intensity = intensity
+	instance.currentRotation = rotation
+	return instance
+
+func createTuner(guitarString, x, y):
+	var scene = load("res://objects/Tuner.tscn");
+	var instance = scene.instance();
+	self.add_child(instance);
+	var coord : Vector2 = Vector2(x, y)
+	coord *= sizeGrid
+	coord += offSet
+	instance.position = coord
+	Global.coordToObject[coord] = instance
+	instance.guitarString = guitarString
+
 func buildMap(map):
 	var i = 0
 	var j = 0
@@ -96,12 +127,28 @@ func buildMap(map):
 		i += 1
 	Global.running = true
 
+func buildGuitarString(json):
+	var guitarString = createGuitarString(
+		json['GuitarString']['position']['x'],
+		json['GuitarString']['position']['y'],
+		json['GuitarString']['intensity'],
+		json['GuitarString']['rotation']
+	)
+	createTuner(
+		guitarString,
+		json['Tuner']['position']['x'],
+		json['Tuner']['position']['y']
+	)
+	
+
 func _init():
 	print('Running')
 
 func _ready():
 	var mapFile = loadFile("res://maps/map1.txt")
 	buildMap(mapFile)
+	var guitarStringJsonFile = loadJsonFile("res://maps/map1_extras.json")
+	buildGuitarString(guitarStringJsonFile)
 	$GUI.hide_level_completed_label()
 	$GUI.hide_level_failed_label()
 	$GUI.set_level_name("Level " + str(curLevel + 1))
