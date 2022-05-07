@@ -51,7 +51,7 @@ func _init():
 	print('Running')
 
 func _ready():
-	var mapFile = loadFile("res://maps/map0.txt")
+	var mapFile = loadFile("res://maps/map_test_string.txt")
 	buildMap(mapFile)
 	$GUI.hide_level_completed_label()
 	$GUI.set_level_name("Level " + str(curLevel + 1))
