@@ -1,8 +1,11 @@
 extends Area2D
 
+signal change_scene(scene_type)
+
 const movementLength : int = 32
 var velocity : Vector2 = Vector2()
 var isDead : bool = false
+var GUI = null
 
 var reflect: bool
 
@@ -14,12 +17,22 @@ func _updatePlayerPosition(destinationPosition):
 	self.position = destinationPosition
 	Global.coordToObject[self.position] = self
 	
+func _input(event):
+	if event is InputEventKey:
+		if event.pressed:
+			return true
+	return false
+	
 func _killPlayer():
 	Global.coordToObject.erase(self.position)
 	self.isDead = true
 	self.visible = false
+	GUI.show_level_failed_label(false)
+	Global.running = false
 
 func _physics_process(_delta):
+	if not Global.running:
+		return false
 	if not self.position in Global.coordToObject:
 		return
 	var dir = Vector2(0, 0)
