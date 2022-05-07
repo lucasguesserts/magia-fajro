@@ -84,6 +84,8 @@ func _physics_process(_delta):
 			_killPlayer()
 		elif whatIsAhead.name.count('Bell') > 0:
 			_finish()
+		elif whatIsAhead.name.count('Piano') > 0:
+			whatIsAhead.play(Game)
 		elif whatIsAhead.name.count('Drums') > 0:
 			whatIsAhead.play(Game)
 			var destObject = Global.coordToObject[destPosition]
