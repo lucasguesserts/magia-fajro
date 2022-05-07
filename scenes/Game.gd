@@ -96,6 +96,30 @@ func _unhandled_input(event):
 		resetGame()
 		emit_signal("change_scene", Global.SceneType.Main)
 
+func createGuitarString():
+	var scene = load("res://objects/GuitarString.tscn");
+	var instance = scene.instance();
+	self.add_child(instance);
+	var coord : Vector2 = Vector2(8, 3)
+	coord *= sizeGrid
+	coord += offSet
+	instance.position = coord
+	Global.coordToObject[coord] = instance
+	instance.intensity = 2
+	instance.currentRotation = 'LEFT'
+	return instance
+
+func createTuner(guitarString):
+	var scene = load("res://objects/Tuner.tscn");
+	var instance = scene.instance();
+	self.add_child(instance);
+	var coord : Vector2 = Vector2(3, 1)
+	coord *= sizeGrid
+	coord += offSet
+	instance.position = coord
+	Global.coordToObject[coord] = instance
+	instance.guitarString = guitarString
+
 func buildMap(map):
 	var i = 0
 	var j = 0
@@ -106,6 +130,8 @@ func buildMap(map):
 			continue
 		parseObject(Vector2(i, j), map[h])
 		i += 1
+	var guitarString = createGuitarString()
+	createTuner(guitarString)
 	Global.running = true
 
 func _init():
