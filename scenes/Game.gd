@@ -48,6 +48,12 @@ func parseObject(coord : Vector2, object : String):
 		self.add_child(instance);
 		instance.position = coord
 		Global.coordToObject[coord] = instance
+	elif object == 'S':
+		var scene = load("res://objects/GuitarString.tscn");
+		var instance = scene.instance();
+		self.add_child(instance);
+		instance.position = coord
+		Global.coordToObject[coord] = instance
 	elif object == '+':
 		var scene = load("res://objects/Bell.tscn");
 		var instance = scene.instance();
