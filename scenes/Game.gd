@@ -8,10 +8,12 @@ const sizeGrid = 32
 onready var offSet = Vector2(sizeGrid, sizeGrid + $GUI.get_size().y)
 onready var curLevel = 0
 var needRestart = false
-onready var drums : AudioStreamPlayer = $Drums
-onready var piano : AudioStreamPlayer = $Piano
-onready var bass : AudioStreamPlayer = $Bass
+onready var drums : AudioStreamPlayer = $Drums2
+onready var piano : AudioStreamPlayer = $Tuner2
+onready var bass : AudioStreamPlayer = $Bass2
+onready var tuner : AudioStreamPlayer = $Piano
 onready var tween : Tween = $Tween 
+onready var background: AudioStreamPlayer = $Background2
 	
 func loadFile(fileName : String):
 	var file = File.new()
@@ -145,22 +147,39 @@ func buildGuitarString(json):
 		json['Tuner']['position']['x'],
 		json['Tuner']['position']['y']
 	)
-	
 
 func _init():
 	print('Running')
+	
+func buildMusicType(jsonFile):
+	var typeMusic = jsonFile['sounds']['type']
+	if typeMusic == 1:
+		drums = $Drums1 
+		piano = $Piano1
+		bass = $Bass1
+		background = $Background1
+	elif typeMusic == 2 :
+		drums = $Drums2
+		piano = $Tuner2
+		bass = $Bass2
+		tuner = $Piano2
+		background = $Background2
+	else:
+		assert(false)
 
 func _ready():
 	var mapFile = loadFile("res://maps/map2.txt")
 	buildMap(mapFile)
 	var jsonFile = loadJsonFile("res://maps/map2_extras.json")
 	buildGuitarString(jsonFile)
+	buildMusicType(jsonFile)
 	$GUI.hide_level_completed_label()
 	$GUI.hide_level_failed_label()
 	$GUI.set_level_name("Level " + str(curLevel + 1))
 	$GUI.show()
-	$Tween.interpolate_property($Background, "volume_db",
-		$Background.volume_db, 0, 0.1, Tween.TRANS_EXPO)
+	
+	$Tween.interpolate_property(background, "volume_db",
+		background.volume_db, 0, 0.1, Tween.TRANS_EXPO)
 	$Tween.start()
 	
 	
