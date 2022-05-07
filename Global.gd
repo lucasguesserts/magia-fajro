@@ -2,7 +2,7 @@ extends Node
 
 var coordToObject = {}
 
-const movementLength : int = 64
+const movementLength : int = 48
 
 enum SceneType {SelectPack, Help, Quit, Main, SelectLevel, Game}
 

@@ -13,5 +13,5 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 4.76837e-07, 0 )
-scale = Vector2( 0.078, 0.078 )
+scale = Vector2( 0.058, 0.058 )
 texture = ExtResource( 1 )

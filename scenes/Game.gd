@@ -174,7 +174,8 @@ func buildMusicType(jsonFile):
 		assert(false)
 
 func _ready():
-	var mapFile = loadFile("res://maps/map2.txt")
+	var baseMapName = "map1"
+	var mapFile = loadFile("res://maps/" + baseMapName + ".txt")
 	var lines = mapFile.split("\n",false)
 	var rows = lines.size()
 	var cols = lines[0].length()
@@ -184,7 +185,7 @@ func _ready():
 	offset.y = (rect.size.y - Global.movementLength *rows + $GUI.get_size().y) / 2.0
 	
 	buildMap(mapFile)
-	var jsonFile = loadJsonFile("res://maps/map2_extras.json")
+	var jsonFile = loadJsonFile("res://maps/" + baseMapName + "_extras.json")
 	buildGuitarString(jsonFile)
 	buildMusicType(jsonFile)
 	
