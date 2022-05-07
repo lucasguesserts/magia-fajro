@@ -78,12 +78,3 @@ func show_help_menu():
 
 func hide_help_menu():
 	self.help_menu.visible = false
-
-func set_high_score(high_score):
-	self.high_score_label.visible = true
-	self.score_label.text = "High Score"
-	self.high_score_label.text = "%s moves" % str(high_score)
-
-func hide_high_score():
-	self.score_label.text = "No High Score"
-	self.high_score_label.visible = false

@@ -1,11 +1,19 @@
-extends Node
+extends Node2D
+
+class_name Game2
 
 signal change_scene(sceneType)
 
-const sizeGrid = 32
-onready var offSet = Vector2(sizeGrid, sizeGrid + $GUI.get_size().y)
+const sizeGrid = Global.movementLength
+var offset : Vector2
 onready var curLevel = 0
 var needRestart = false
+onready var drums : AudioStreamPlayer = $Drums2
+onready var piano : AudioStreamPlayer = $Tuner2
+onready var bass : AudioStreamPlayer = $Bass2
+onready var tuner : AudioStreamPlayer = $Piano
+onready var tween : Tween = $Tween 
+onready var background: AudioStreamPlayer = $Background2
 	
 func loadFile(fileName : String):
 	var file = File.new()
@@ -36,7 +44,7 @@ func loadJsonFile(fileName : String):
 	
 func parseObject(coord : Vector2, object : String):
 	coord *= sizeGrid
-	coord += offSet
+	coord += offset
 	if object == '#':
 		var scene = load("res://objects/Wall.tscn");
 		var instance = scene.instance();
@@ -51,6 +59,12 @@ func parseObject(coord : Vector2, object : String):
 		Global.coordToObject[coord] = instance
 	elif object == 'D':
 		var scene = load("res://objects/Drums.tscn");
+		var instance = scene.instance();
+		self.add_child(instance);
+		instance.position = coord
+		Global.coordToObject[coord] = instance
+	elif object == 'P':
+		var scene = load("res://objects/Piano.tscn");
 		var instance = scene.instance();
 		self.add_child(instance);
 		instance.position = coord
@@ -97,7 +111,7 @@ func createGuitarString(x, y, intensity, rotation):
 	self.add_child(instance);
 	var coord : Vector2 = Vector2(x, y)
 	coord *= sizeGrid
-	coord += offSet
+	coord += offset
 	instance.position = coord
 	Global.coordToObject[coord] = instance
 	instance.intensity = intensity
@@ -110,7 +124,7 @@ func createTuner(guitarString, x, y):
 	self.add_child(instance);
 	var coord : Vector2 = Vector2(x, y)
 	coord *= sizeGrid
-	coord += offSet
+	coord += offset
 	instance.position = coord
 	Global.coordToObject[coord] = instance
 	instance.guitarString = guitarString
@@ -139,22 +153,49 @@ func buildGuitarString(json):
 		json['Tuner']['position']['x'],
 		json['Tuner']['position']['y']
 	)
-	
 
 func _init():
 	print('Running')
+	
+func buildMusicType(jsonFile):
+	var typeMusic = jsonFile['sounds']['type']
+	if typeMusic == 1:
+		drums = $Drums1 
+		piano = $Piano1
+		bass = $Bass1
+		background = $Background1
+	elif typeMusic == 2 :
+		drums = $Drums2
+		piano = $Tuner2
+		bass = $Bass2
+		tuner = $Piano2
+		background = $Background2
+	else:
+		assert(false)
 
 func _ready():
-	var mapFile = loadFile("res://maps/map2.txt")
+	var baseMapName = "map2"
+	var mapFile = loadFile("res://maps/" + baseMapName + ".txt")
+	var lines = mapFile.split("\n",false)
+	var rows = lines.size()
+	var cols = lines[0].length()
+	var rect = get_viewport_rect()
+	offset = Vector2.ZERO
+	offset.x = (rect.size.x - Global.movementLength *cols) / 2.0
+	offset.y = (rect.size.y - Global.movementLength *rows + $GUI.get_size().y) / 2.0
+	
 	buildMap(mapFile)
-	var guitarStringJsonFile = loadJsonFile("res://maps/map2_extras.json")
-	buildGuitarString(guitarStringJsonFile)
+	var jsonFile = loadJsonFile("res://maps/" + baseMapName + "_extras.json")
+	buildGuitarString(jsonFile)
+	buildMusicType(jsonFile)
+	
 	$GUI.hide_level_completed_label()
 	$GUI.hide_level_failed_label()
 	$GUI.set_level_name("Level " + str(curLevel + 1))
 	$GUI.show()
-	$Tween.interpolate_property($Background, "volume_db",
-		$Background.volume_db, 0, 0.1, Tween.TRANS_EXPO)
+	
+	$Tween.interpolate_property(background, "volume_db",
+		background.volume_db, 0, 0.1, Tween.TRANS_EXPO)
 	$Tween.start()
 	
 	
