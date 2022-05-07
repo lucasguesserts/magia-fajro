@@ -13,14 +13,14 @@ onready var raycast = $Raycast
  
  
 func _ready():
-     cell_position = Vector2(int(position[0] / CELL_SIZE), int(position[1] / CELL_SIZE))
+	 cell_position = Vector2(int(position[0] / CELL_SIZE), int(position[1] / CELL_SIZE))
  
  
 func _process(delta):
-     sprite.position = sprite.position.linear_interpolate(Vector2(0, 0), LERP_ACCEL)
+	 sprite.position = sprite.position.linear_interpolate(Vector2(0, 0), LERP_ACCEL)
  
  
 func effectivate_movement(dir):
-    cell_position += dir
-     position = cell_position * CELL_SIZE + TO_CELL_CENTER
-     sprite.position -= dir * CELL_SIZE
+	cell_position += dir
+	 position = cell_position * CELL_SIZE + TO_CELL_CENTER
+	 sprite.position -= dir * CELL_SIZE

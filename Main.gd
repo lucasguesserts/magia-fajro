@@ -1,10 +1,9 @@
 extends Node
 
-var coordToObject = {}
 const sizeGrid = 32
-const liftRight = Vector2(sizeGrid/5, 0) # to centralize the player
-const offSet = Vector2(30, 30)
-
+const offSet = Vector2(sizeGrid, sizeGrid)
+var coordToObject = {}
+	
 func loadFile(fileName : String):
 	var file = File.new()
 	file.open(fileName, File.READ)
@@ -27,7 +26,7 @@ func parseObject(coord : Vector2, object : String):
 		var scene = load("res://objects/Player.tscn");
 		var instance = scene.instance();
 		self.add_child(instance);
-		instance.position = coord + liftRight
+		instance.position = coord
 		coordToObject[coord] = instance
 
 func buildMap(map):
@@ -41,7 +40,7 @@ func buildMap(map):
 		parseObject(Vector2(i, j), map[h])
 		i += 1
 
-func _ready():
+func _init():
 	print('Running')
 	var mapFile = loadFile("res://maps/map0.txt")
 	buildMap(mapFile)
