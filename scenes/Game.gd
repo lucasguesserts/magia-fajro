@@ -30,6 +30,12 @@ func parseObject(coord : Vector2, object : String):
 		self.add_child(instance);
 		instance.position = coord
 		Global.coordToObject[coord] = instance
+	elif object == '+':
+		var scene = load("res://objects/Bell.tscn");
+		var instance = scene.instance();
+		self.add_child(instance);
+		instance.position = coord
+		Global.coordToObject[coord] = instance
 	elif object == '1' || object == '2':
 		var scene = load("res://objects/Player.tscn");
 		var instance = scene.instance();
@@ -49,6 +55,7 @@ func resetGame():
 	for pr in Global.coordToObject:
 		Global.coordToObject[pr].queue_free()
 	Global.coordToObject = {}
+	Global.finished = 0
 
 func _unhandled_input(event):
 	if event is InputEventKey and not Global.running and not needRestart:

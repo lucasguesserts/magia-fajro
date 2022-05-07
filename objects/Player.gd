@@ -6,6 +6,7 @@ const movementLength : int = 32
 var velocity : Vector2 = Vector2()
 var isDead : bool = false
 var GUI = null
+var finished: bool = false
 
 var reflect: bool
 
@@ -29,6 +30,15 @@ func _killPlayer():
 	self.visible = false
 	GUI.show_level_failed_label(false)
 	Global.running = false
+
+func _finish():
+	if not finished:
+		self.finished = true
+		Global.finished += 1
+		self.visible = false
+		if Global.finished == 2:
+			GUI.show_level_completed_label(false)
+			Global.running = false
 
 func _physics_process(_delta):
 	if not Global.running:
@@ -54,5 +64,7 @@ func _physics_process(_delta):
 			pass
 		if whatIsAhead.name.count('Hole') > 0:
 			_killPlayer()
+		if whatIsAhead.name.count('Bell') > 0:
+			_finish()
 	else:
 		_updatePlayerPosition(destPosition)
