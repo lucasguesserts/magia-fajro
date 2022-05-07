@@ -1,6 +1,6 @@
 extends Area2D
 
-const movementLength : int = 16
+const movementLength : int = 32
 var velocity : Vector2 = Vector2()
 
 func _physics_process(delta):
@@ -14,3 +14,4 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("move_down"):
 		dir.y += 1 
 	self.position += dir * movementLength
+	
