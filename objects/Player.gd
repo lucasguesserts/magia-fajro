@@ -4,7 +4,13 @@ const movementLength : int = 16
 var velocity : Vector2 = Vector2()
 
 func _physics_process(delta):
-	velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	velocity.x = ceil(velocity.x)
-	velocity.y = ceil(velocity.y)
-	self.position += velocity * movementLength
+	var dir = Vector2(0, 0)
+	if Input.is_action_just_pressed("move_left"):
+		dir.x -= 1 
+	if Input.is_action_just_pressed("move_right"):
+		dir.x += 1 
+	if Input.is_action_just_pressed("move_up"):
+		dir.y -= 1 
+	if Input.is_action_just_pressed("move_down"):
+		dir.y += 1 
+	self.position += dir * movementLength
